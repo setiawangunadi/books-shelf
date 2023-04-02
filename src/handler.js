@@ -8,28 +8,10 @@ const addBookHandler = (request, h) => {
     const year = new Date().getTime.year;
     const insertedAt = new Date().toISOString;
     const updatedAt = insertedAt;
-    
-    if(pageCount === readPage){
-        const finished = true;
-        const newBook = {
-            name, author, summary, publisher, pageCount, readPage, reading, bookId, year, insertedAt, updatedAt, finished,
-        };
-    
-        books.push(newBook);
-    } else {
-        const finished = false;
-        const newBook = {
-            name, author, summary, publisher, pageCount, readPage, reading, bookId, year, insertedAt, updatedAt, finished,
-        };
-    
-        books.push(newBook);
-    }
 
     const failInsertName = name.length < 1;
-    const isSuccess = books.filter((book) => book.name === name).length > 0;
+    const isSuccess = bookId.length > 0;
     const failPageCount = readPage > pageCount;
-    const finishRead = pageCount === readPage && isSuccess;
-    const unfinishedRead = pageCount !== readPage && isSuccess;
     
     if(failInsertName){
         const response = h.response({
@@ -39,7 +21,7 @@ const addBookHandler = (request, h) => {
         
         response.code(400);
         return response;
-    } 
+    }
     
     if(failPageCount){
         const response = h.response({
@@ -51,19 +33,22 @@ const addBookHandler = (request, h) => {
         return response;
     }
     
-    if(finishRead){
-        const response = h.response({
-            status: 'success',
-            message: 'Buku berhasil ditambahkan',
-            data: {
-                bookId : bookId
-            }
-        });
-        response.code(201);
-        return response;
-    }
-    
-    if (unfinishedRead) {
+    if(isSuccess){
+        if(pageCount === readPage){
+            const finished = true;
+            const newBook = {
+                name, author, summary, publisher, pageCount, readPage, reading, bookId, year, insertedAt, updatedAt, finished,
+            };
+        
+            books.push(newBook);
+        } else {
+            const finished = false;
+            const newBook = {
+                name, author, summary, publisher, pageCount, readPage, reading, bookId, year, insertedAt, updatedAt, finished,
+            };
+        
+            books.push(newBook);
+        }
         const response = h.response({
             status: 'success',
             message: 'Buku berhasil ditambahkan',
