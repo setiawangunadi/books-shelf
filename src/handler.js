@@ -25,7 +25,7 @@ const addBookHandler = (request, h) => {
         books.push(newBook);
     }
 
-    const failInsertName = books.filter((book) => book.name).length < 1;
+    const failInsertName = name.length < 1;
     const isSuccess = books.filter((book) => book.name === name).length > 0;
     const failPageCount = readPage > pageCount;
     const finishRead = pageCount === readPage && isSuccess;
