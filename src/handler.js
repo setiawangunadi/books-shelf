@@ -9,11 +9,10 @@ const addBookHandler = (request, h) => {
     const insertedAt = new Date().toISOString;
     const updatedAt = insertedAt;
 
-    const failInsertName = name.length < 1;
     const isSuccess = bookId.length > 0;
     const failPageCount = readPage > pageCount;
     
-    if(failInsertName){
+    if(name === undefined){
         const response = h.response({
             status: 'fail',
             message: 'Gagal menambahkan buku. Mohon isi nama buku'
@@ -71,9 +70,6 @@ const addBookHandler = (request, h) => {
 const getAllBookHandler = () => ({
     status: 'success',
     data: {
-        // id : books[0].bookId,
-        // name : books[0].name,
-        // publisher : books[0].publisher,
         books,
     },
 });
@@ -110,10 +106,9 @@ const editBookByIdHandler = (request, h) => {
     const updatedAt = new Date().toISOString;
 
     const index = books.findIndex((book) => book.bookId === bookId);
-    const failNameEmpty = name.length < 1;
 
     if (index !== -1 ){
-        if(failNameEmpty){
+        if(name === undefined){
             const response = h.response({
                 status : 'fail',
                 message : 'Gagal memperbaruai buku. Mohon isi nama buku'
