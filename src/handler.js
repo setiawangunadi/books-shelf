@@ -67,12 +67,16 @@ const addBookHandler = (request, h) => {
     return response;
 };
 
-const getAllBookHandler = () => ({
+const getAllBooksHandler = (request, h) => ({
     status: 'success',
     data: {
-        books,
+      books: books.map((book) => ({
+          id: book.bookId,
+          name: book.name,
+          publisher: book.publisher,
+       })),
     },
-});
+  });
 
 const getBookByIdHandler = (request, h) => {
     const { bookId } = request.params;
@@ -83,8 +87,12 @@ const getBookByIdHandler = (request, h) => {
         const response = h.response({
             status : 'success',
             data: {
-                book
-            },
+                books: books.map((book) => ({
+                    id: book.bookId,
+                    name: book.name,
+                    publisher: book.publisher,
+                 })),
+              },
         });
         response.code(200);
         return response;
@@ -111,7 +119,7 @@ const editBookByIdHandler = (request, h) => {
         if(name === undefined){
             const response = h.response({
                 status : 'fail',
-                message : 'Gagal memperbaruai buku. Mohon isi nama buku'
+                message : 'Gagal memperbarui buku. Mohon isi nama buku'
             });
             response.code(400);
             return response;
@@ -141,7 +149,7 @@ const editBookByIdHandler = (request, h) => {
 
         const response = h.response({
             status : 'success',
-            message : 'Buku berhasil diperbaharui',
+            message : 'Buku berhasil diperbarui',
         });
         response.code(200);
         return response;
@@ -177,4 +185,4 @@ const deleteBookByIdHandler = (request, h) => {
     return response;
 };
 
-module.exports = { addBookHandler, getAllBookHandler, getBookByIdHandler, editBookByIdHandler, deleteBookByIdHandler };
+module.exports = { addBookHandler, getAllBooksHandler, getBookByIdHandler, editBookByIdHandler, deleteBookByIdHandler };
